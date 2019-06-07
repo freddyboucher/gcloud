@@ -18,5 +18,14 @@ RUN apt-get update && apt-get -y --no-install-recommends install curl \
   && rm docker-${DOCKERVERSION}.tgz \
   && rm -rf /var/lib/apt/lists/*
 
+# Install OpenJDK-8
+RUN apt-get update && \
+    apt-get install -y openjdk-8-jdk && \
+    apt-get clean;
+
+# Setup JAVA_HOME, this is useful for docker commandline
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
+RUN export JAVA_HOME
+
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
